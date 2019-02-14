@@ -12,6 +12,10 @@
 		22DCF2BA221579AE0070E014 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22DCF2B8221579AE0070E014 /* Main.storyboard */; };
 		22DCF2BC221579B30070E014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22DCF2BB221579B30070E014 /* Assets.xcassets */; };
 		22DCF2BF221579B30070E014 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22DCF2BD221579B30070E014 /* LaunchScreen.storyboard */; };
+		22DCF2CA22157F200070E014 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCF2C922157F200070E014 /* Contact.swift */; };
+		22DCF2CD221580580070E014 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCF2CC221580580070E014 /* UseCase.swift */; };
+		22DCF2D02215815B0070E014 /* Extension+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCF2CF2215815B0070E014 /* Extension+Sequence.swift */; };
+		22DCF2D2221581AE0070E014 /* OptionalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCF2D1221581AE0070E014 /* OptionalType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,10 @@
 		22DCF2BB221579B30070E014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22DCF2BE221579B30070E014 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22DCF2C0221579B30070E014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22DCF2C922157F200070E014 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		22DCF2CC221580580070E014 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
+		22DCF2CF2215815B0070E014 /* Extension+Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Sequence.swift"; sourceTree = "<group>"; };
+		22DCF2D1221581AE0070E014 /* OptionalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +62,50 @@
 		22DCF2B3221579AE0070E014 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				22DCF2B4221579AE0070E014 /* AppDelegate.swift */,
+				22DCF2C622157E890070E014 /* UseCase */,
+				22DCF2C822157EC20070E014 /* Model */,
+				22DCF2CE221580FA0070E014 /* Extra */,
 				22DCF2B6221579AE0070E014 /* ViewController.swift */,
+				22DCF2B4221579AE0070E014 /* AppDelegate.swift */,
 				22DCF2B8221579AE0070E014 /* Main.storyboard */,
 				22DCF2BB221579B30070E014 /* Assets.xcassets */,
 				22DCF2BD221579B30070E014 /* LaunchScreen.storyboard */,
 				22DCF2C0221579B30070E014 /* Info.plist */,
 			);
 			path = Contacts;
+			sourceTree = "<group>";
+		};
+		22DCF2C622157E890070E014 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				22DCF2C722157E9B0070E014 /* CreateContact */,
+				22DCF2CC221580580070E014 /* UseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		22DCF2C722157E9B0070E014 /* CreateContact */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CreateContact;
+			sourceTree = "<group>";
+		};
+		22DCF2C822157EC20070E014 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				22DCF2C922157F200070E014 /* Contact.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		22DCF2CE221580FA0070E014 /* Extra */ = {
+			isa = PBXGroup;
+			children = (
+				22DCF2D1221581AE0070E014 /* OptionalType.swift */,
+				22DCF2CF2215815B0070E014 /* Extension+Sequence.swift */,
+			);
+			path = Extra;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,6 +179,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22DCF2D02215815B0070E014 /* Extension+Sequence.swift in Sources */,
+				22DCF2CA22157F200070E014 /* Contact.swift in Sources */,
+				22DCF2CD221580580070E014 /* UseCase.swift in Sources */,
+				22DCF2D2221581AE0070E014 /* OptionalType.swift in Sources */,
 				22DCF2B7221579AE0070E014 /* ViewController.swift in Sources */,
 				22DCF2B5221579AE0070E014 /* AppDelegate.swift in Sources */,
 			);
