@@ -21,25 +21,12 @@ struct Contact {
         return _fullName.isEmpty ? nil : _fullName
     }
     
-    init(id: Int, firstName: String?, middleName: String?, lastName: String?, email: String?, phone: String?) throws {
-        guard [firstName, middleName, lastName, email, phone].unwrapRemovingNil().isEmpty == false else {
-            throw ContactError.initializationFailure(.noData)
-        }
+    init(id: Int, firstName: String?, middleName: String?, lastName: String?, email: String?, phone: String?) {
         self.id = id
         self.firstName = firstName
         self.middleName = middleName
         self.lastName = lastName
         self.email = email
         self.phone = phone
-    }
-}
-
-// Exception handling
-enum ContactError: Error {
-    case initializationFailure(Reason)
-    
-    
-    enum Reason {
-        case noData
     }
 }
