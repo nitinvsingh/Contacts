@@ -21,15 +21,30 @@ struct EditContactInteractor: UseCase {
     
     private var dataStore: EditContactDataStore?
     
-    func process(_ input: EditContactRequest, withCompletion completion: (Result<EditContactResponse, EditContactError>) -> Void) {
+    func process(_ input: EditContactRequest, withCompletion completion: @escaping (Result<EditContactResponse, EditContactError>) -> Void) {
         // 1. Validate individual field condition
         
         // 2. Update the record in data store.
         let contact = Contact(id: input.id, firstName: input.firstName, middleName: input.middleName, lastName: input.lastName, email: input.email, phone: input.phone)
         
         // 3. dataStore.updateDetails(of contact, withCompletion: (Contact) -> Void)
-        completion(.success(contact))
+        guard let dataStore = dataStore else { completion(.success(contact)); return }
+        DispatchQueue.global(qos: .userInitiated).async {
+            dataStore.updateDetails(of: contact, withCompletion: { response in
+                DispatchQueue.main.async {
+//                    completion(response)
+                }
+            })
+        }
     }
+}
+
+// MARK: DataStore Boundary
+typealias EditContactDataStoreRequest = EditContactResponse
+typealias EditContactDataStoreResponse = Bool
+
+protocol EditContactDataStore {
+    func updateDetails(of contact: EditContactDataStoreRequest, withCompletion completion: (Result<EditContactDataStoreResponse, PersistenceError>) -> Void)
 }
 
 enum EditContactError: Error {
@@ -37,10 +52,6 @@ enum EditContactError: Error {
     var localizedDescription: String {
         return "Error occurred while editing contact"
     }
-}
-
-protocol EditContactDataStore {
-    func updateDetails(of contact: Contact, withCompletion completion: (Contact) -> Void)
 }
 
 

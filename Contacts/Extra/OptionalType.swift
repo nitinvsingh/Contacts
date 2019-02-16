@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol OptionalProtocol {
+public protocol OptionalProtocol {
     associatedtype Wrapped
     var optional: Wrapped? { get }
 }
 
 extension Optional: OptionalProtocol {
-    var optional: Wrapped? { return self }
+    public var optional: Wrapped? { return self }
 }

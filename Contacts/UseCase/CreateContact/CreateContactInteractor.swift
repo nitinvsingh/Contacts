@@ -34,27 +34,43 @@ struct CreateContactInteractor: UseCase {
     
     var dataStore: CreateContactDataStore?
     
-    func process(_ input: CreateContactRequest, withCompletion completion: (Result<CreateContactResponse, CreateContactError>) -> Void) {
+    func process(_ input: CreateContactRequest, withCompletion completion: @escaping (Result<CreateContactResponse, CreateContactError>) -> Void) {
+        
         guard [input.firstName, input.middleName, input.lastName, input.email, input.phone].unwrapRemovingNil().isEmpty == false else {
             completion(.failure(.initializationFailure(.noData)))
             return
         }
-        let newContact = Contact(id: 100, firstName: input.firstName, middleName: input.middleName, lastName: input.lastName, email: input.email, phone: input.phone)
-        // dataStore?.createContact(usingDetail: newContact)
-        completion(.success(newContact))
+        let newContact = Contact(id: dataStore?.newContactId ?? 100_000_000, firstName: input.firstName, middleName: input.middleName, lastName: input.lastName, email: input.email, phone: input.phone)
+        guard let dataStore = dataStore else {
+            completion(.success(newContact))
+            return
+        }
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            dataStore.createContact(usingDetail: newContact, withCompletion: { response in
+                DispatchQueue.main.async {
+//                    completion(response)
+                }
+            })
+        }
     }
 }
 
 
+// MARK: DataStore Boundary
 
+typealias CreateContactDataStoreRequest = CreateContactResponse
+typealias CreateContactDataStoreResponse = CreateContactResponse
 
 protocol CreateContactDataStore {
-    func createContact(usingDetail: Contact, withCompletion completion: () -> Void)
+    var newContactId: Int { get }
+    func createContact(usingDetail data: CreateContactDataStoreRequest, withCompletion completion: (Result<CreateContactDataStoreResponse, PersistenceError>) -> Void)
 }
+
 
 enum CreateContactError: Error {
     case initializationFailure(Reason)
-    case persistenceFailure(Reason)
+    case persistenceFailure(PersistenceError)
     
     enum Reason {
         case noData

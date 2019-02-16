@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		223CAB2522167B9C00205D80 /* CreateContactInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223CAB2422167B9C00205D80 /* CreateContactInteractor.swift */; };
 		223CAB2822168CC000205D80 /* EditContactInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223CAB2722168CC000205D80 /* EditContactInteractor.swift */; };
+		227807A22217F07C00DA293C /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227807A12217F07C00DA293C /* Result.swift */; };
+		227807A42218189500DA293C /* PersistenceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227807A32218189500DA293C /* PersistenceError.swift */; };
+		227807A72218195800DA293C /* ListContactsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227807A62218195800DA293C /* ListContactsInteractor.swift */; };
+		227807AA2218282500DA293C /* DeleteContactInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227807A92218282500DA293C /* DeleteContactInteractor.swift */; };
+		2284020F22182E9700CCF08D /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2284020E22182E9700CCF08D /* DataStore.swift */; };
 		22DCF2B5221579AE0070E014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCF2B4221579AE0070E014 /* AppDelegate.swift */; };
 		22DCF2B7221579AE0070E014 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCF2B6221579AE0070E014 /* ViewController.swift */; };
 		22DCF2BA221579AE0070E014 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22DCF2B8221579AE0070E014 /* Main.storyboard */; };
@@ -23,6 +28,11 @@
 /* Begin PBXFileReference section */
 		223CAB2422167B9C00205D80 /* CreateContactInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateContactInteractor.swift; sourceTree = "<group>"; };
 		223CAB2722168CC000205D80 /* EditContactInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContactInteractor.swift; sourceTree = "<group>"; };
+		227807A12217F07C00DA293C /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		227807A32218189500DA293C /* PersistenceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceError.swift; sourceTree = "<group>"; };
+		227807A62218195800DA293C /* ListContactsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListContactsInteractor.swift; sourceTree = "<group>"; };
+		227807A92218282500DA293C /* DeleteContactInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteContactInteractor.swift; sourceTree = "<group>"; };
+		2284020E22182E9700CCF08D /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		22DCF2B1221579AE0070E014 /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22DCF2B4221579AE0070E014 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22DCF2B6221579AE0070E014 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,8 +68,26 @@
 		223CAB292216982B00205D80 /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
+				227807A32218189500DA293C /* PersistenceError.swift */,
+				2284020E22182E9700CCF08D /* DataStore.swift */,
 			);
 			path = DataStore;
+			sourceTree = "<group>";
+		};
+		227807A52218191A00DA293C /* ListContacts */ = {
+			isa = PBXGroup;
+			children = (
+				227807A62218195800DA293C /* ListContactsInteractor.swift */,
+			);
+			path = ListContacts;
+			sourceTree = "<group>";
+		};
+		227807A82218222700DA293C /* DeleteContact */ = {
+			isa = PBXGroup;
+			children = (
+				227807A92218282500DA293C /* DeleteContactInteractor.swift */,
+			);
+			path = DeleteContact;
 			sourceTree = "<group>";
 		};
 		22DCF2A8221579AE0070E014 = {
@@ -98,6 +126,8 @@
 		22DCF2C622157E890070E014 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				227807A82218222700DA293C /* DeleteContact */,
+				227807A52218191A00DA293C /* ListContacts */,
 				22DCF2C722157E9B0070E014 /* CreateContact */,
 				223CAB2622168C9B00205D80 /* EditContact */,
 				22DCF2CC221580580070E014 /* UseCase.swift */,
@@ -126,6 +156,7 @@
 			children = (
 				22DCF2D1221581AE0070E014 /* OptionalType.swift */,
 				22DCF2CF2215815B0070E014 /* Extension+Sequence.swift */,
+				227807A12217F07C00DA293C /* Result.swift */,
 			);
 			path = Extra;
 			sourceTree = "<group>";
@@ -201,13 +232,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2284020F22182E9700CCF08D /* DataStore.swift in Sources */,
+				227807A22217F07C00DA293C /* Result.swift in Sources */,
+				227807A72218195800DA293C /* ListContactsInteractor.swift in Sources */,
 				22DCF2D02215815B0070E014 /* Extension+Sequence.swift in Sources */,
 				22DCF2CA22157F200070E014 /* Contact.swift in Sources */,
 				22DCF2CD221580580070E014 /* UseCase.swift in Sources */,
 				223CAB2822168CC000205D80 /* EditContactInteractor.swift in Sources */,
+				227807AA2218282500DA293C /* DeleteContactInteractor.swift in Sources */,
 				22DCF2D2221581AE0070E014 /* OptionalType.swift in Sources */,
 				223CAB2522167B9C00205D80 /* CreateContactInteractor.swift in Sources */,
 				22DCF2B7221579AE0070E014 /* ViewController.swift in Sources */,
+				227807A42218189500DA293C /* PersistenceError.swift in Sources */,
 				22DCF2B5221579AE0070E014 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
