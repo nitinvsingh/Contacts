@@ -12,8 +12,9 @@ import Foundation
 protocol EditContactRequest: CreateContactRequest {
     var id: Int { get }
 }
-typealias EditContactResponse = CreateContactResponse
+typealias EditContactResponse = ContactResponse
 
+// MARK: Usecase
 struct EditContactInteractor: UseCase {
     typealias UseCaseError = EditContactError
     typealias Input = EditContactRequest
@@ -23,6 +24,13 @@ struct EditContactInteractor: UseCase {
     
     func process(_ input: EditContactRequest, withCompletion completion: @escaping (Result<EditContactResponse, EditContactError>) -> Void) {
         // 1. Validate individual field condition
+        // like regex match for email
+        
+        
+        if let phone = input.phone, phone.count < 8 {
+            completion(.failure(.invalidFieldData(fieldName: "phone")))
+            return
+        }
         
         // 2. Update the record in data store.
         let contact = Contact(id: input.id, firstName: input.firstName, middleName: input.middleName, lastName: input.lastName, email: input.email, phone: input.phone)
@@ -46,13 +54,3 @@ typealias EditContactDataStoreResponse = Bool
 protocol EditContactDataStore {
     func updateDetails(of contact: EditContactDataStoreRequest, withCompletion completion: (Result<EditContactDataStoreResponse, PersistenceError>) -> Void)
 }
-
-enum EditContactError: Error {
-    
-    var localizedDescription: String {
-        return "Error occurred while editing contact"
-    }
-}
-
-
-

@@ -7,14 +7,19 @@
 //
 
 import Foundation
+import SQLite3
 
-class DataStore {
+
+class SQLDataStore {
     
     private let startContactId = 100_000_000
     
     var contacts: [Int: Contact]
     
-    init(contacts: [Int: Contact]? = nil) {
+    init(databasePath: String, contacts: [Int: Contact]? = nil) {
+        
+        // create contact table in the database
+        
         guard let contacts = contacts else {
             self.contacts = [
                 100_000_001 : Contact(id: 100_000_001, firstName: "Nitin", middleName: "Vinod", lastName: "Singh", email: "nitin.singh@zohocorp.com", phone: "9664070510"),
@@ -27,7 +32,7 @@ class DataStore {
     }
 }
 
-extension DataStore: CreateContactDataStore {
+extension SQLDataStore: CreateContactDataStore {
     func createContact(usingDetail data: CreateContactDataStoreRequest, withCompletion completion: (Result<CreateContactDataStoreResponse, PersistenceError>) -> Void) {
         let newDSContact = Contact(id: data.id, firstName: data.firstName, middleName: data.middleName, lastName: data.lastName, email: data.email, phone: data.phone)
         contacts[data.id] = newDSContact
@@ -39,7 +44,7 @@ extension DataStore: CreateContactDataStore {
     }
 }
 
-extension DataStore: EditContactDataStore {
+extension SQLDataStore: EditContactDataStore {
     func updateDetails(of contact: EditContactDataStoreRequest, withCompletion completion: (Result<EditContactDataStoreResponse, PersistenceError>) -> Void) {
         var contactToBeEdited = contacts[contact.id]
         guard contactToBeEdited != nil else { completion(.failure(.operationFailure)); return }
@@ -50,4 +55,16 @@ extension DataStore: EditContactDataStore {
         contactToBeEdited?.phone = contact.phone
         completion(Result.success(true))
     }
+}
+
+extension SQLDataStore: ListContactsDataStore {
+    func getContacts(matching criteria: String?, withCompletion completion: @escaping (Result<[ListContactsDataStoreResponse]?, PersistenceError>) -> Void) {
+        let matchedContacts = contacts.filter { (key: Int, contact: Contact) in
+            return false
+        }
+        if matchedContacts.isEmpty {
+            completion(.failure(.operationFailure))
+        }
+    }
+    
 }

@@ -8,17 +8,14 @@
 
 import Foundation
 
+// MARK: Data Boundary
 protocol ListContactsRequest {
     var searchCriteria: String? { get }
 }
 
-protocol ListContactsResponse {
-    var id: Int { get }
-    var name: String? { get }
-    var email: String? { get }
-    var phone: String? { get }
-}
+typealias ListContactsResponse = ContactResponse
 
+// MARK: Usecase
 struct ListContactsInteractor: UseCase {
     typealias Input = ListContactsRequest
     typealias Output = [ListContactsResponse]?
@@ -27,11 +24,20 @@ struct ListContactsInteractor: UseCase {
     var dataStore: ListContactsDataStore?
     
     func process(_ input: Input, withCompletion completion: @escaping (Result<Output, UseCaseError>) -> Void) {
-        guard let dataStore = dataStore else { completion(.success(nil)); return }
+        // Notify that the dataStore isn't configured and the request cannot be fulfilled.
+        guard let dataStore = dataStore else {
+            // A bug can be reported stating persitence isn't available.
+            completion(.failure(.persistenceUnavailable))
+            return
+        }
+        
         DispatchQueue.global(qos: .userInitiated).async {
             dataStore.getContacts(matching: input.searchCriteria) { response in
                 DispatchQueue.main.async {
-//                    completion(response)                    
+                    switch response {
+                    case .success(let result): completion(.success(result))
+                    case .failure(let err): completion(.failure(.persistenceFailure(err)))
+                    }
                 }
             }
         }
@@ -39,6 +45,8 @@ struct ListContactsInteractor: UseCase {
 }
 
 enum ListContactsError: Error {
+    case persistenceUnavailable
+    case persistenceFailure(PersistenceError)
     
     var localizedDescription: String {
         return ""
@@ -54,7 +62,9 @@ protocol ListContactsDataStore {
 struct MockDS: ListContactsDataStore {
     struct MockResponse: ListContactsDataStoreResponse {
         let id: Int
-        let name: String?
+        var firstName: String?
+        var middleName: String?
+        var lastName: String?
         let email: String?
         let phone: String?
     }

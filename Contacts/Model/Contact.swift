@@ -30,3 +30,4 @@ struct Contact {
         self.phone = phone
     }
 }
+

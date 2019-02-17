@@ -16,16 +16,7 @@ protocol CreateContactRequest {
     var phone: String? { get }
 }
 
-protocol CreateContactResponse {
-    var id: Int { get }
-    var firstName: String? { get }
-    var middleName: String? { get }
-    var lastName: String? { get }
-    var email: String? { get }
-    var phone: String? { get }
-}
-
-extension Contact: CreateContactResponse {}
+typealias CreateContactResponse = ContactResponse
 
 struct CreateContactInteractor: UseCase {
     typealias Input = CreateContactRequest

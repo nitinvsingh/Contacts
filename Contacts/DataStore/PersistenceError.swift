@@ -11,6 +11,8 @@ import Foundation
 
 public enum PersistenceError: Error {
     case operationFailure
+    case keyUnavailable
+    
     
     var localizedDescription: String { return "Persistence failed to fulfil the request" }
 }
