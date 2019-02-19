@@ -19,6 +19,7 @@
 		227807A72218195800DA293C /* ListContactsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227807A62218195800DA293C /* ListContactsInteractor.swift */; };
 		227807AA2218282500DA293C /* DeleteContactInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227807A92218282500DA293C /* DeleteContactInteractor.swift */; };
 		2284020F22182E9700CCF08D /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2284020E22182E9700CCF08D /* DataStore.swift */; };
+		228D8A29221C57B400EB5C4F /* Extension+String+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228D8A28221C57B400EB5C4F /* Extension+String+Int.swift */; };
 		22DCF2B5221579AE0070E014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCF2B4221579AE0070E014 /* AppDelegate.swift */; };
 		22DCF2B7221579AE0070E014 /* ListContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCF2B6221579AE0070E014 /* ListContactsViewController.swift */; };
 		22DCF2BA221579AE0070E014 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22DCF2B8221579AE0070E014 /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 		227807A62218195800DA293C /* ListContactsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListContactsInteractor.swift; sourceTree = "<group>"; };
 		227807A92218282500DA293C /* DeleteContactInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteContactInteractor.swift; sourceTree = "<group>"; };
 		2284020E22182E9700CCF08D /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		228D8A28221C57B400EB5C4F /* Extension+String+Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String+Int.swift"; sourceTree = "<group>"; };
 		22DCF2B1221579AE0070E014 /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22DCF2B4221579AE0070E014 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22DCF2B6221579AE0070E014 /* ListContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListContactsViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +77,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22018BA6221BD34F00FB66D8 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				2207B106221A92EE00D8B296 /* CreateEditContactViewController.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		223CAB2622168C9B00205D80 /* EditContact */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +99,7 @@
 			children = (
 				227807A32218189500DA293C /* PersistenceError.swift */,
 				2284020E22182E9700CCF08D /* DataStore.swift */,
+				228D8A28221C57B400EB5C4F /* Extension+String+Int.swift */,
 			);
 			path = DataStore;
 			sourceTree = "<group>";
@@ -151,6 +162,7 @@
 				227807A52218191A00DA293C /* ListContacts */,
 				22DCF2C722157E9B0070E014 /* CreateContact */,
 				223CAB2622168C9B00205D80 /* EditContact */,
+				22018BA6221BD34F00FB66D8 /* Common */,
 				22DCF2CC221580580070E014 /* UseCase.swift */,
 				3C05F97A2219884900F4EC67 /* ContactResponse.swift */,
 				2207B102221A6D5100D8B296 /* ContactError.swift */,
@@ -162,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				223CAB2422167B9C00205D80 /* CreateContactInteractor.swift */,
-				2207B106221A92EE00D8B296 /* CreateEditContactViewController.swift */,
 				2207B108221AA0D500D8B296 /* CreateContactPresenter.swift */,
 			);
 			path = CreateContact;
@@ -274,6 +285,7 @@
 				22DCF2D02215815B0070E014 /* Extension+Sequence.swift in Sources */,
 				22DCF2CA22157F200070E014 /* Contact.swift in Sources */,
 				22DCF2CD221580580070E014 /* UseCase.swift in Sources */,
+				228D8A29221C57B400EB5C4F /* Extension+String+Int.swift in Sources */,
 				2254F4BA221AD54800E8A59A /* ContactInfoPresenter.swift in Sources */,
 				2207B109221AA0D500D8B296 /* CreateContactPresenter.swift in Sources */,
 				223CAB2822168CC000205D80 /* EditContactInteractor.swift in Sources */,

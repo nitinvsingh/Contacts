@@ -43,7 +43,10 @@ class ListContactsViewController: UIViewController {
             case .success(let usecaseOutput):
                 let presenter = ListContactsPresenter()
                 self?.contacts = presenter.generateViewModel(from: usecaseOutput)
-            case .failure(let err): print(err)
+            case .failure:
+                let alert = UIAlertController(title: "Something went wrong", message: "An unexpected error occurred. Try killing the app and relaunching.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self?.present(alert, animated: true, completion: nil)
             }
         }
     }

@@ -18,7 +18,7 @@ typealias ListContactsResponse = ContactResponse
 // MARK: Usecase
 struct ListContactsInteractor: UseCase {
     typealias Input = ListContactsRequest
-    typealias Output = [ListContactsResponse]?
+    typealias Output = [ListContactsResponse]
     typealias UseCaseError = ContactError
     
     var dataStore: ListContactsDataStore?
@@ -51,5 +51,5 @@ struct ListContactsInteractor: UseCase {
 // MARK: DataStore Boundary
 typealias ListContactsDataStoreResponse = ListContactsResponse
 protocol ListContactsDataStore {
-    func getContacts(matching criteria: String?, withCompletion: @escaping (Result<[ListContactsDataStoreResponse]?, PersistenceError>) -> Void)
+    func getContacts(matching criteria: String?, withCompletion: @escaping (Result<[ListContactsDataStoreResponse], PersistenceError>) -> Void)
 }

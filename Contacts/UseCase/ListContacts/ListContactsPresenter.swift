@@ -14,14 +14,14 @@ struct ListContactsPresenter: Presenter {
         let name: String
     }
     
-    typealias Input = [ListContactsResponse]?
+    typealias Input = [ListContactsResponse]
     typealias Output = [ViewModel]
     
     
     func generateViewModel(from input: Input) -> Output {
-        guard let contacts = input else {
-            return [ViewModel]()
-        }
-        return contacts.map { ViewModel(id: $0.id, name: $0.displayName) }
+//        guard let contacts = input else {
+//            return [ViewModel]()
+//        }
+        return input.map { ViewModel(id: $0.id, name: $0.displayName) }
     }
 }

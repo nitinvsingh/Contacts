@@ -25,7 +25,9 @@ public enum ContactError: Error {
 
 public enum PersistenceError: Error {
     case persistenceUnavailable
-    case operationFailure
+    case operationFailure(dbError: String?)
     case invalidContactKey
+    case prepareQueryFailure(dbError: String?)
+    case queryExecutionFailure(dbError: String?)
 }
 

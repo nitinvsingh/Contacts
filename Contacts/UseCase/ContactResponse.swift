@@ -35,7 +35,6 @@ extension ContactResponse {
     func validateEmailPhone() -> Result<Bool, ContactError> {
         if let email = email, email.isEmpty == false, let firstChar = email.first {
             guard nonFirstEmailChars.firstIndex(of: String(firstChar)) == nil, email.contains("@")  else {
-                
                 return Result.failure(ContactError.invalidRequest(.invalidFieldData(fieldName: "email")))
             }
         }
