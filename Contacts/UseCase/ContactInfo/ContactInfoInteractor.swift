@@ -37,7 +37,7 @@ struct ContactInfoInteractor: UseCase {
                         case .failure(let reason):
                             switch reason {
                             case .invalidContactKey: completion(.failure(.invalidRequest(.invalidContactId)))
-                            default: .operationFailure, .persistenceUnavailable:
+                            default:
                                 completion(.failure(ContactError.invalidRequest(ContactError.ContactErrorReason.noData)))
                             }
                         }                        
