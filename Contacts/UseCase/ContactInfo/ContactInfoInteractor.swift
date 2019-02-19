@@ -18,19 +18,29 @@ typealias ContactInfoResponse = ContactResponse
 struct ContactInfoInteractor: UseCase {
     typealias Input = ContactInfoRequest
     typealias Output = ContactInfoResponse
-    typealias UseCaseError = ContactInfoError
+    typealias UseCaseError = ContactError
     
     var dataStore: ContactInfoDataStore?
     
     func process(_ input: Input, withCompletion completion: @escaping (Result<Output, UseCaseError>) -> Void) {
-        guard let dataStore = dataStore else { completion(.failure(.persistenceNotAvailable)); return }
+        guard let dataStore = dataStore else {
+            completion(.failure(.persistenceUnavailble))
+            return
+        }
         DispatchQueue.global(qos: .userInitiated).async {
             dataStore.getContactInfo(forId: input.contactId, withCompletion: { result in
                 DispatchQueue.main.async {
-                    switch result {
-                    case .success(let response): completion(.success(response))
-                    case .failure: completion(.failure(.persistenceError))
-                    }
+//                    Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { _ in
+                        switch result {
+                        case .success(let response):
+                            completion(.success(response))
+                        case .failure(let reason):
+                            switch reason {
+                            case .invalidContactKey: completion(.failure(.invalidRequest(.invalidContactId)))
+                            case .operationFailure, .persistenceUnavailable: print("Operation failure")
+                            }
+                        }                        
+//                    })
                 }
             })
         }
@@ -39,10 +49,4 @@ struct ContactInfoInteractor: UseCase {
 
 protocol ContactInfoDataStore {
     func getContactInfo(forId id: Int, withCompletion completion: @escaping (Result<ContactInfoResponse, PersistenceError>) -> Void)
-}
-
-enum ContactInfoError: Error {
-    case persistenceNotAvailable
-    case persistenceError
-    var localizedDescription: String { return "Contact info retrival error." }
 }

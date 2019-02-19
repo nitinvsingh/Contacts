@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct AppConfig {
+    static var dataStore = SQLDataStore(atPath: "appdb.sqlite")
+    static let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

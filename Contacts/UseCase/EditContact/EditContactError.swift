@@ -10,7 +10,7 @@ import Foundation
 
 enum EditContactError: Error {
     case invalidFieldData(fieldName: String)
-    
+
     var localizedDescription: String {
         return "Error occurred while editing contact"
     }

@@ -9,11 +9,11 @@
 import Foundation
 
 
-public enum PersistenceError: Error {
-    case operationFailure
-    case persistenceUnavailable
-    
-    
-    
-    var localizedDescription: String { return "Persistence failed to fulfil the request" }
-}
+//public enum PersistenceError: Error {
+//    case operationFailure
+//    case persistenceUnavailable
+//    
+//    
+//    
+//    var localizedDescription: String { return "Persistence failed to fulfil the request" }
+//}

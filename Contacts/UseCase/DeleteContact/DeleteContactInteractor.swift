@@ -12,23 +12,27 @@ protocol DeleteContactRequest {
     var id: Int { get }
 }
 
-protocol DeleteContactResponse {
-    var deleted: Bool { get }
-}
+typealias DeleteContactResponse = Bool
 
 struct DeleteContactInteractor: UseCase {
     typealias Input = DeleteContactRequest
     typealias Output = DeleteContactResponse
-    typealias UseCaseError = DeleteContactError
+    typealias UseCaseError = ContactError
     
     var dataStore: DeleteContactDataStore?
     
     func process(_ input: Input, withCompletion completion: @escaping (Result<Output, UseCaseError>) -> Void) {
-        guard let dataStore = dataStore else { return }
+        guard let dataStore = dataStore else {
+            completion(.success(true))
+            return
+        }
         DispatchQueue.global(qos: .userInitiated).async {
             dataStore.deleteContact(havingId: input.id, withCompletion: { response in
                 DispatchQueue.main.async {
-                    // completion(response)
+                    switch response {
+                    case .success: completion(.success(true))
+                    case .failure(let reason): completion(.failure(.persistenceFailure(reason)))
+                    }
                 }
             })
         }
@@ -39,9 +43,4 @@ struct DeleteContactInteractor: UseCase {
 typealias DeleteContactDataStoreResponse = DeleteContactResponse
 protocol DeleteContactDataStore {
     func deleteContact(havingId id: Int, withCompletion completion: @escaping (Result<DeleteContactDataStoreResponse, PersistenceError>) -> Void)
-}
-
-enum DeleteContactError: Error {
-    
-    var localizedDescription: String { return "Failed to delete contact" }
 }
