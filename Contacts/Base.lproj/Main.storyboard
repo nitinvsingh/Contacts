@@ -60,7 +60,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Conacts" id="57U-Ef-F7n">
+                    <navigationItem key="navigationItem" title="Conacts" largeTitleDisplayMode="always" id="57U-Ef-F7n">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xNY-9M-9uP">
                             <connections>
                                 <action selector="createNewContact:" destination="BYZ-38-t0r" id="K9n-Sf-Khz"/>

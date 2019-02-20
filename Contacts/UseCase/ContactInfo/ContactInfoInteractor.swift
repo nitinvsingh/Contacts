@@ -8,46 +8,45 @@
 
 import Foundation
 
-// MARK: Boundary
-protocol ContactInfoRequest {
-    var contactId: Int { get }
-}
+// MARK: Usecase Data Boundary
+//typealias ContactInfoResponse = ContactResponse
 
-typealias ContactInfoResponse = ContactResponse
-
+// MARK: Usecase manifestation
 struct ContactInfoInteractor: UseCase {
-    typealias Input = ContactInfoRequest
-    typealias Output = ContactInfoResponse
-    typealias UseCaseError = ContactError
+//    typealias Input = ContactId
+//    typealias Output = ContactInfoResponse
+//    typealias UseCaseError = ContactError
     
     var dataStore: ContactInfoDataStore?
     
-    func process(_ input: Input, withCompletion completion: @escaping (Result<Output, UseCaseError>) -> Void) {
+    func process(_ input: ContactId, withCompletion completion: @escaping (Result<ContactResponse, ContactError>) -> Void) {
         guard let dataStore = dataStore else {
             completion(.failure(.persistenceUnavailble))
             return
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            dataStore.getContactInfo(forId: input.contactId, withCompletion: { result in
+            dataStore.getContactInfo(forId: input, withCompletion: { result in
                 DispatchQueue.main.async {
-//                    Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { _ in
-                        switch result {
-                        case .success(let response):
-                            completion(.success(response))
-                        case .failure(let reason):
-                            switch reason {
-                            case .invalidContactKey: completion(.failure(.invalidRequest(.invalidContactId)))
-                            default:
-                                completion(.failure(ContactError.invalidRequest(ContactError.ContactErrorReason.noData)))
-                            }
-                        }                        
-//                    })
+                    switch result {
+                    case .success(let response):
+                        completion(.success(response))
+                    case .failure(let reason):
+                        switch reason {
+                        case .invalidContactKey: completion(.failure(.invalidRequest(.invalidContactId)))
+                        default:
+                            completion(.failure(ContactError.invalidRequest(ContactError.ContactErrorReason.noData)))
+                        }
+                    }
+                    
                 }
             })
         }
     }
 }
 
+// MARK: Data Store Boundary
+//typealias ContactInfoDataStoreResponse = ContactInfoResponse
+
 protocol ContactInfoDataStore {
-    func getContactInfo(forId id: Int, withCompletion completion: @escaping (Result<ContactInfoResponse, PersistenceError>) -> Void)
+    func getContactInfo(forId id: ContactId, withCompletion completion: @escaping (Result<ContactResponse, PersistenceError>) -> Void)
 }

@@ -8,26 +8,19 @@
 
 import Foundation
 
-protocol DeleteContactRequest {
-    var id: Int { get }
-}
 
 typealias DeleteContactResponse = Bool
 
 struct DeleteContactInteractor: UseCase {
-    typealias Input = DeleteContactRequest
-    typealias Output = DeleteContactResponse
-    typealias UseCaseError = ContactError
-    
     var dataStore: DeleteContactDataStore?
     
-    func process(_ input: Input, withCompletion completion: @escaping (Result<Output, UseCaseError>) -> Void) {
+    func process(_ input: ContactId, withCompletion completion: @escaping (Result<DeleteContactResponse, ContactError>) -> Void) {
         guard let dataStore = dataStore else {
             completion(.success(true))
             return
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            dataStore.deleteContact(havingId: input.id, withCompletion: { response in
+            dataStore.deleteContact(havingId: input, withCompletion: { response in
                 DispatchQueue.main.async {
                     switch response {
                     case .success: completion(.success(true))
@@ -40,7 +33,8 @@ struct DeleteContactInteractor: UseCase {
 }
 
 // MARK: DataStore Boundary
-typealias DeleteContactDataStoreResponse = DeleteContactResponse
+typealias DeleteContactDataStoreResponse = Bool
+
 protocol DeleteContactDataStore {
-    func deleteContact(havingId id: Int, withCompletion completion: @escaping (Result<DeleteContactDataStoreResponse, PersistenceError>) -> Void)
+    func deleteContact(havingId id: ContactId, withCompletion completion: @escaping (Result<DeleteContactDataStoreResponse, PersistenceError>) -> Void)
 }

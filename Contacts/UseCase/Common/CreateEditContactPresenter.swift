@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct CreateContactPresenter: Presenter {
+struct CreateEditContactPresenter: Presenter {
     
     typealias ViewModel = Contact
-    typealias Input = CreateContactResponse
+    typealias Input = ContactResponse
     typealias Output = ViewModel
     
     func generateViewModel(from input: Input) -> Output {

@@ -8,22 +8,17 @@
 
 import Foundation
 
-// MARK: Data Boundary
-protocol ListContactsRequest {
-    var searchCriteria: String? { get }
-}
+// MARK: Usecase Data Boundary
+//protocol ListContactsRequest {
+//    var searchCriteria: String? { get }
+//}
+//typealias ListContactsResponse = ContactResponse
 
-typealias ListContactsResponse = ContactResponse
-
-// MARK: Usecase
+// MARK: Usecase manifestation
 struct ListContactsInteractor: UseCase {
-    typealias Input = ListContactsRequest
-    typealias Output = [ListContactsResponse]
-    typealias UseCaseError = ContactError
-    
     var dataStore: ListContactsDataStore?
     
-    func process(_ input: Input, withCompletion completion: @escaping (Result<Output, UseCaseError>) -> Void) {
+    func process(_ input: SearchCriteria?, withCompletion completion: @escaping (Result<[ContactResponse], ContactError>) -> Void) {
         // Notify that the dataStore isn't configured and the request cannot be fulfilled.
         guard let dataStore = dataStore else {
             // A bug can be reported stating persitence isn't available.
@@ -33,14 +28,12 @@ struct ListContactsInteractor: UseCase {
         
         DispatchQueue.global(qos: .userInitiated).async {
             DispatchQueue.global(qos: .userInitiated).async {
-                dataStore.getContacts(matching: input.searchCriteria) { response in
+                dataStore.getContacts(matching: input) { response in
                     DispatchQueue.main.async {
-//                        Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { _ in
-                            switch response {
-                            case .success(let result): completion(.success(result))
-                            case .failure(let err): completion(.failure(.persistenceFailure(err)))
-                            } 
-//                        })
+                        switch response {
+                        case .success(let result): completion(.success(result))
+                        case .failure(let err): completion(.failure(.persistenceFailure(err)))
+                        }
                     }
                 }
             }
@@ -49,7 +42,8 @@ struct ListContactsInteractor: UseCase {
 }
 
 // MARK: DataStore Boundary
-typealias ListContactsDataStoreResponse = ListContactsResponse
+//typealias ListContactsDataStoreResponse = ListContactsResponse
+
 protocol ListContactsDataStore {
-    func getContacts(matching criteria: String?, withCompletion: @escaping (Result<[ListContactsDataStoreResponse], PersistenceError>) -> Void)
+    func getContacts(matching criteria: SearchCriteria?, withCompletion: @escaping (Result<[ContactResponse], PersistenceError>) -> Void)
 }

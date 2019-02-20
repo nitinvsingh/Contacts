@@ -17,8 +17,6 @@ protocol UseCase {
 protocol Presenter {
     associatedtype Input
     associatedtype Output
-//    associatedtype PresenterError: Swift.Error
-//    mutating func generateViewModel(from input: Input) -> Result<Output, PresenterError>
     mutating func generateViewModel(from input: Input) -> Output
 }
 

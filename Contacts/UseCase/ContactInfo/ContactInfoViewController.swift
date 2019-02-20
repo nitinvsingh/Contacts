@@ -10,7 +10,7 @@ import UIKit
 
 class ContactInfoViewController: UITableViewController {
     
-    var contactId: Int? = nil
+    var contactId: ContactId? = nil
     var contact: ContactInfoPresenter.ViewModel? {
         didSet {
             if let contact = contact {
@@ -24,10 +24,6 @@ class ContactInfoViewController: UITableViewController {
         }
     }
     
-    private struct DeleteContactRequestMock: DeleteContactRequest {
-        let id: Int
-    }
-    
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
@@ -35,10 +31,6 @@ class ContactInfoViewController: UITableViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     private let interactor = ContactInfoInteractor(dataStore: AppConfig.dataStore)
-    
-    struct ContactInfoRequestMock: ContactInfoRequest {
-        let contactId: Int
-    }
     
     lazy var editBarButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editContact))
@@ -53,7 +45,7 @@ class ContactInfoViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         toggleSpinnerOn(true)
-        interactor.process(ContactInfoRequestMock(contactId: contactId!)) { [weak self] response in
+        interactor.process(contactId!) { [weak self] response in
             self?.toggleSpinnerOn(false)
             switch response {
             case .success(let result):
@@ -91,9 +83,9 @@ class ContactInfoViewController: UITableViewController {
     @IBAction func deleteContact(_ sender: UIButton) {
         let alert = UIAlertController(title: "Delete Contact?", message: "This change cannot be undone.", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-            let deleteContactUseCase = DeleteContactInteractor(dataStore: AppConfig.dataStore)
             guard let contactId = self.contact?.id else { return }
-            let deleteRequest = DeleteContactRequestMock(id: contactId)
+            let deleteContactUseCase = DeleteContactInteractor(dataStore: AppConfig.dataStore)
+            let deleteRequest = contactId
             deleteContactUseCase.process(deleteRequest) { [weak self] response in
                 switch response {
                 case .success:

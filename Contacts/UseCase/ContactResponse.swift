@@ -8,8 +8,12 @@
 
 import Foundation
 
+
+public typealias ContactId = Int
+public typealias SearchCriteria = String
+
 public protocol ContactResponse {
-    var id: Int { get }
+    var id: ContactId { get }
     var firstName: String? { get }
     var middleName: String? { get }
     var lastName: String? { get }
@@ -23,9 +27,9 @@ extension Contact: ContactResponse {}
 extension ContactResponse {
     var displayName: String  {
         let name = [firstName, middleName, lastName].unwrapRemovingNil().concat(byAppending: " ")
-        var displayName = name.isEmpty ? email ?? "" : name
-        displayName = displayName.isEmpty ? phone ?? "No Name" : displayName
-        return displayName
+        var _displayName = name.isEmpty ? email ?? "" : name
+        _displayName = _displayName.isEmpty ? phone ?? "No Name" : _displayName
+        return _displayName
     }
     
     private var nonFirstEmailChars: [String] {

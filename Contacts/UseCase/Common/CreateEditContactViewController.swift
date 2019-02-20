@@ -26,18 +26,8 @@ class CreateEditContactViewController: UITableViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var saveContactButton: UIButton!
     
-//    private let interactor = CreateContactInteractor(dataStore: AppConfig.dataStore)
     
     private struct CreateContactRequestMock: CreateContactRequest {
-        let firstName: String?
-        let middleName: String?
-        let lastName: String?
-        let email: String?
-        let phone: String?
-    }
-    
-    private struct EditContactRequestMock: EditContactRequest {
-        let id: Int
         let firstName: String?
         let middleName: String?
         let lastName: String?
@@ -100,7 +90,7 @@ class CreateEditContactViewController: UITableViewController {
             createInteractor.process(newContactRequest, withCompletion: resolveUseCaseResponse)
         case .edit(let contact):
             let editInteractor = EditContactInteractor(dataStore: AppConfig.dataStore)
-            let editContactRequest = EditContactRequestMock(id: contact.id, firstName: firstNameField.text, middleName: middleNameField.text, lastName: lastNameField.text, email: emailField.text, phone: phoneField.text)
+            let editContactRequest = Contact(id: contact.id, firstName: firstNameField.text, middleName: middleNameField.text, lastName: lastNameField.text, email: emailField.text, phone: phoneField.text)
             editInteractor.process(editContactRequest, withCompletion: resolveUseCaseResponse)
         }
     }

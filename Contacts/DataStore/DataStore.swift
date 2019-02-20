@@ -9,6 +9,9 @@
 import Foundation
 import SQLite3
 
+extension SQLDataStore {
+    
+}
 
 class SQLDataStore {
     
@@ -76,7 +79,7 @@ extension SQLDataStore {
 }
 
 extension SQLDataStore: CreateContactDataStore {
-    func createContact(usingDetail data: CreateContactDataStoreRequest, withCompletion completion: (Result<CreateContactDataStoreResponse, PersistenceError>) -> Void) {
+    func createContact(usingDetail data: CreateContactDataStoreRequest, withCompletion completion: (Result<ContactResponse, PersistenceError>) -> Void) {
         let insertQuery = """
             INSERT INTO CONTACT VALUES(?, ?, ?, ?, ?, ?);
         """
@@ -119,7 +122,7 @@ extension SQLDataStore: CreateContactDataStore {
 }
 
 extension SQLDataStore: EditContactDataStore {
-    func updateDetails(of contact: EditContactDataStoreRequest, withCompletion completion: (Result<EditContactDataStoreResponse, PersistenceError>) -> Void) {
+    func updateDetails(of contact: ContactResponse, withCompletion completion: (Result<ContactResponse, PersistenceError>) -> Void) {
         let updateQuery = "UPDATE CONTACT SET FIRSTNAME = ?, MIDDLENAME = ?, LASTNAME = ?, EMAIL = ?, PHONE = ? WHERE ID = ?;"
         var statement: OpaquePointer? = nil
         defer {
@@ -137,7 +140,8 @@ extension SQLDataStore: EditContactDataStore {
 }
 
 extension SQLDataStore: ListContactsDataStore {
-    func getContacts(matching criteria: String?, withCompletion completion: @escaping (Result<[ListContactsDataStoreResponse], PersistenceError>) -> Void) {
+    
+    func getContacts(matching criteria: SearchCriteria?, withCompletion completion: @escaping (Result<[ContactResponse], PersistenceError>) -> Void) {
         var selectQuery = "SELECT * FROM CONTACT"
         if let criteria = criteria {
             let wildSearchCriteria = "%\(criteria)%"
@@ -149,7 +153,7 @@ extension SQLDataStore: ListContactsDataStore {
         guard sqlite3_prepare(database, selectQuery, -1, &selectStatement, nil) == SQLITE_OK else {
             return
         }
-        var searchedContacts = [ListContactsDataStoreResponse]()
+        var searchedContacts = [ContactResponse]()
         while sqlite3_step(selectStatement) == SQLITE_ROW {
             let id = Int(sqlite3_column_int(selectStatement, 0))
             let text = [
@@ -169,7 +173,7 @@ extension SQLDataStore: ListContactsDataStore {
 }
 
 extension SQLDataStore: ContactInfoDataStore {
-    func getContactInfo(forId id: Int, withCompletion completion: @escaping (Result<ContactInfoResponse, PersistenceError>) -> Void) {
+    func getContactInfo(forId id: ContactId, withCompletion completion: @escaping (Result<ContactResponse, PersistenceError>) -> Void) {
         let selectDetailQuery = "SELECT * FROM CONTACT WHERE ID = ?;"
         var selectDetailStatement: OpaquePointer? = nil
         guard sqlite3_prepare(database, selectDetailQuery, -1, &selectDetailStatement, nil) == SQLITE_OK else {
@@ -198,7 +202,7 @@ extension SQLDataStore: ContactInfoDataStore {
 }
 
 extension SQLDataStore: DeleteContactDataStore {
-    func deleteContact(havingId id: Int, withCompletion completion: @escaping (Result<DeleteContactDataStoreResponse, PersistenceError>) -> Void) {
+    func deleteContact(havingId id: ContactId, withCompletion completion: @escaping (Result<DeleteContactDataStoreResponse, PersistenceError>) -> Void) {
         let deleteQuery = "DELETE FROM CONTACT WHERE ID = ?"
         var statement: OpaquePointer? = nil
         guard sqlite3_prepare(database, deleteQuery, -1, &statement, nil) == SQLITE_OK else {

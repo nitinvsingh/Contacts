@@ -15,26 +15,21 @@ class ListContactsViewController: UIViewController {
     
     private let interactor = ListContactsInteractor(dataStore: AppConfig.dataStore)
     
-    private struct ContactRequest: ListContactsRequest {
-        var searchCriteria: String?
-    }
-    
     private var contacts = [ListContactsPresenter.ViewModel]() {
         didSet {
             contactList.reloadData()
         }
     }
     
-    private var showContactIndex: Int? = nil
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Contacts"
+        navigationItem.largeTitleDisplayMode = .always
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let allContactsRequest = ContactRequest(searchCriteria: nil)
+        let allContactsRequest: SearchCriteria? = nil
         spinner.startAnimating()
         interactor.process(allContactsRequest) { [weak self] result in
             self?.spinner.stopAnimating()
@@ -79,8 +74,3 @@ extension ListContactsViewController: UITableViewDelegate {
         self.navigationController?.pushViewController(contactInfoVC, animated: true)
     }
 }
-
-
-
-
-

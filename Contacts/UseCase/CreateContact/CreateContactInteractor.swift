@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: Usecase Data Boundary
 protocol CreateContactRequest {
     var firstName: String? { get }
     var middleName: String? { get }
@@ -16,16 +17,12 @@ protocol CreateContactRequest {
     var phone: String? { get }
 }
 
-typealias CreateContactResponse = ContactResponse
+// MARK: Usecase manifestation
 
 struct CreateContactInteractor: UseCase {
-    typealias Input = CreateContactRequest
-    typealias Output = CreateContactResponse
-    typealias UseCaseError = ContactError
-    
     var dataStore: CreateContactDataStore?
     
-    func process(_ input: Input, withCompletion completion: @escaping (Result<Output, UseCaseError>) -> Void) {
+    func process(_ input: CreateContactRequest, withCompletion completion: @escaping (Result<ContactResponse, ContactError>) -> Void) {
         guard [input.firstName, input.middleName, input.lastName, input.email, input.phone].unwrapRemovingNil().concat(byAppending: "").isEmpty == false else {
             completion(.failure(.initializationFailure(.noData)))
             return
@@ -41,17 +38,15 @@ struct CreateContactInteractor: UseCase {
             completion(.success(newContact))
             return
         }
-
+        
         DispatchQueue.global(qos: .userInitiated).async {
             dataStore.createContact(usingDetail: newContact, withCompletion: { response in
                 DispatchQueue.main.async {
-//                    Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { _ in
-                        switch response {
-                        case .success(let result):
-                            completion(.success(result))
-                        case .failure(let reason): completion(.failure(.persistenceFailure(reason)))
-                        }
-//                    })
+                    switch response {
+                    case .success(let result):
+                        completion(.success(result))
+                    case .failure(let reason): completion(.failure(.persistenceFailure(reason)))
+                    }
                 }
             })
         }
@@ -60,12 +55,10 @@ struct CreateContactInteractor: UseCase {
 
 
 // MARK: DataStore Boundary
-
-typealias CreateContactDataStoreRequest = CreateContactResponse
-typealias CreateContactDataStoreResponse = CreateContactResponse
+typealias CreateContactDataStoreRequest = ContactResponse
+//typealias CreateContactDataStoreResponse = ContactResponse
 
 protocol CreateContactDataStore {
     var newContactId: Int { get }
-    func createContact(usingDetail data: CreateContactDataStoreRequest, withCompletion completion: (Result<CreateContactDataStoreResponse, PersistenceError>) -> Void)
+    func createContact(usingDetail data: CreateContactDataStoreRequest, withCompletion completion: (Result<ContactResponse, PersistenceError>) -> Void)
 }
-

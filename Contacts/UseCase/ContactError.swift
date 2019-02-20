@@ -14,8 +14,7 @@ public enum ContactError: Error {
     case persistenceUnavailble
     case persistenceFailure(PersistenceError)
     case invalidRequest(ContactErrorReason)
-    
-    
+        
     public enum ContactErrorReason {
         case noData
         case invalidContactId

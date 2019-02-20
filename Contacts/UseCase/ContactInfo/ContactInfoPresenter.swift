@@ -10,7 +10,7 @@ import Foundation
 
 struct ContactInfoPresenter: Presenter {
     typealias ViewModel = Contact
-    typealias Input = ContactInfoResponse
+    typealias Input = ContactResponse
     typealias Output = ViewModel
     
     func generateViewModel(from input: Input) -> Output {
